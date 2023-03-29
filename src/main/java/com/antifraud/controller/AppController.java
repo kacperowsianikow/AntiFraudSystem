@@ -8,10 +8,7 @@ import com.antifraud.registration.RegistrationRequest;
 import com.antifraud.response.AppUserResponse;
 import com.antifraud.response.RegistrationResponse;
 import com.antifraud.response.TransferResponse;
-import com.antifraud.service.AppService;
-import com.antifraud.service.ChangePasswordService;
-import com.antifraud.service.RegistrationService;
-import com.antifraud.service.TransferService;
+import com.antifraud.service.*;
 import com.antifraud.stolencard.StolenCard;
 import com.antifraud.stolencard.StolenCardRequest;
 import com.antifraud.transfer.TransferRequest;
@@ -26,7 +23,9 @@ import java.util.List;
 @RequestMapping("/api/antifraud")
 @RequiredArgsConstructor
 public class AppController {
-    private final AppService appService;
+    private final AppUserService appUserService;
+    private final SuspiciousIpService suspiciousIpService;
+    private final StolenCardService stolenCardService;
     private final TransferService transferService;
     private final RegistrationService registrationService;
     private final ChangePasswordService changePasswordService;
@@ -48,22 +47,22 @@ public class AppController {
 
     @PostMapping("/support/suspicious-ip")
     public SuspiciousIp suspiciousIp(@Valid @RequestBody SuspiciousIpRequest suspiciousIpRequest) {
-        return appService.addSuspiciousIp(suspiciousIpRequest);
+        return suspiciousIpService.addSuspiciousIp(suspiciousIpRequest);
     }
 
     @PostMapping("/support/stolencard")
     public StolenCard stolenCard(@Valid @RequestBody StolenCardRequest stolenCardRequest) {
-        return appService.addStolenCard(stolenCardRequest);
+        return stolenCardService.addStolenCard(stolenCardRequest);
     }
 
     @PutMapping("/admin/access")
     public String unlockAppUser(@RequestBody UnlockAppUser unlockAppUser) {
-        return appService.unlockAppUser(unlockAppUser);
+        return appUserService.unlockAppUser(unlockAppUser);
     }
 
     @PutMapping("/admin/role")
     public String alterRole(@RequestBody AlterRoleRequest alterRole) {
-        return appService.alterRole(alterRole);
+        return appUserService.alterRole(alterRole);
     }
 
     @GetMapping("/signup/confirm")
@@ -73,32 +72,32 @@ public class AppController {
 
     @GetMapping("/listusers")
     public List<AppUserResponse> appUser() {
-        return appService.getAppUsers();
+        return appUserService.getAppUsers();
     }
 
     @GetMapping("/support/suspicious-ip")
     public List<SuspiciousIp> suspiciousIps() {
-        return appService.allSuspiciousIps();
+        return suspiciousIpService.allSuspiciousIps();
     }
 
     @GetMapping("/support/stolencard")
     public List<StolenCard> stolenCards() {
-        return appService.allStolenCards();
+        return stolenCardService.allStolenCards();
     }
 
     @DeleteMapping("/admin/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
-        return appService.deleteUser(id);
+        return appUserService.deleteUser(id);
     }
 
     @DeleteMapping("/support/suspicious-ip/{id}")
     public String deleteSuspiciousIp(@PathVariable("id") Long id) {
-        return appService.deleteSuspiciousIp(id);
+        return suspiciousIpService.deleteSuspiciousIp(id);
     }
 
     @DeleteMapping("/support/stolencard/{id}")
     public String deleteStolenCard(@PathVariable("id") Long id) {
-        return appService.deleteStolenCard(id);
+        return stolenCardService.deleteStolenCard(id);
     }
 
 }

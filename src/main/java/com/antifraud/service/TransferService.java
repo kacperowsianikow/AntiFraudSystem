@@ -16,12 +16,9 @@ public class TransferService {
     private final ITransferRepository iTransferRepository;
 
     public TransferResponse newTransfer(TransferRequest transferRequest) {
-        //TODO save all transfers
-
-
         LocalDateTime hourBefore = LocalDateTime.now().minusHours(1);
         List<Transfer> transfers =
-                iTransferRepository.findAllDateAfter(hourBefore);
+                iTransferRepository.findByDateAfter(hourBefore);
 
         int diffRegion = 0;
         int uniqueIp = 0;
@@ -93,4 +90,5 @@ public class TransferService {
         return Arrays.stream(Region.values())
                 .anyMatch(region -> region.name().equals(inputRegion));
     }
+
 }

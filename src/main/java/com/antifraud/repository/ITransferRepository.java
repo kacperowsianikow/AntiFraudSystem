@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ITransferRepository extends JpaRepository<Transfer, Long> {
-    List<Transfer> findAllDateAfter(LocalDateTime date);
+    List<Transfer> findByDateAfter(LocalDateTime date);
 
 }
