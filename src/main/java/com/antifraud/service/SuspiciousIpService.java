@@ -3,6 +3,7 @@ package com.antifraud.service;
 import com.antifraud.ips.SuspiciousIp;
 import com.antifraud.ips.SuspiciousIpRequest;
 import com.antifraud.repository.ISuspiciousIpRepository;
+import com.antifraud.response.SuspiciousIpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class SuspiciousIpService {
     private final ISuspiciousIpRepository iSuspiciousIpRepository;
 
-    public SuspiciousIp addSuspiciousIp(SuspiciousIpRequest suspiciousIpRequest) {
+    public SuspiciousIpResponse addSuspiciousIp(SuspiciousIpRequest suspiciousIpRequest) {
         Optional<SuspiciousIp> suspiciousIp =
                 iSuspiciousIpRepository.findByIp(suspiciousIpRequest.ip());
 
@@ -28,9 +29,12 @@ public class SuspiciousIpService {
                 suspiciousIpRequest.ip()
         );
 
-        iSuspiciousIpRepository.save(newSuspiciousIp);
+        iSuspiciousIpRepository.saveAndFlush(newSuspiciousIp);
 
-        return newSuspiciousIp;
+        return new SuspiciousIpResponse(
+                newSuspiciousIp.getId(),
+                newSuspiciousIp.getIp()
+        );
     }
 
     public List<SuspiciousIp> allSuspiciousIps() {

@@ -5,9 +5,7 @@ import com.antifraud.changepassword.ChangePasswordRequest;
 import com.antifraud.ips.SuspiciousIp;
 import com.antifraud.ips.SuspiciousIpRequest;
 import com.antifraud.registration.RegistrationRequest;
-import com.antifraud.response.AppUserResponse;
-import com.antifraud.response.RegistrationResponse;
-import com.antifraud.response.TransferResponse;
+import com.antifraud.response.*;
 import com.antifraud.service.*;
 import com.antifraud.stolencard.StolenCard;
 import com.antifraud.stolencard.StolenCardRequest;
@@ -31,7 +29,7 @@ public class AppController {
     private final ChangePasswordService changePasswordService;
 
     @PostMapping("/merchant/transaction")
-    public TransferResponse newTransfer(@Valid @RequestBody TransferRequest transferRequest) {
+    public TransferStatus newTransfer(@Valid @RequestBody TransferRequest transferRequest) {
         return transferService.newTransfer(transferRequest);
     }
 
@@ -46,12 +44,12 @@ public class AppController {
     }
 
     @PostMapping("/support/suspicious-ip")
-    public SuspiciousIp suspiciousIp(@Valid @RequestBody SuspiciousIpRequest suspiciousIpRequest) {
+    public SuspiciousIpResponse suspiciousIp(@Valid @RequestBody SuspiciousIpRequest suspiciousIpRequest) {
         return suspiciousIpService.addSuspiciousIp(suspiciousIpRequest);
     }
 
     @PostMapping("/support/stolencard")
-    public StolenCard stolenCard(@Valid @RequestBody StolenCardRequest stolenCardRequest) {
+    public StolenCardResponse stolenCard(@Valid @RequestBody StolenCardRequest stolenCardRequest) {
         return stolenCardService.addStolenCard(stolenCardRequest);
     }
 
@@ -70,9 +68,14 @@ public class AppController {
         return registrationService.confirmToken(token);
     }
 
-    @GetMapping("/listusers")
-    public List<AppUserResponse> appUser() {
+    @GetMapping("/list-users")
+    public List<AppUserResponse> appUsers() {
         return appUserService.getAppUsers();
+    }
+
+    @GetMapping("/support/list-transactions")
+    public List<TransferResponse> transfers() {
+        return transferService.getAllTransfers();
     }
 
     @GetMapping("/support/suspicious-ip")

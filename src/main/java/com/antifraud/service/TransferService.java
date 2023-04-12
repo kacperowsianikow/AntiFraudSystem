@@ -2,12 +2,14 @@ package com.antifraud.service;
 
 import com.antifraud.repository.ITransferRepository;
 import com.antifraud.response.TransferResponse;
+import com.antifraud.response.TransferStatus;
 import com.antifraud.transfer.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -15,7 +17,7 @@ import java.util.List;
 public class TransferService {
     private final ITransferRepository iTransferRepository;
 
-    public TransferResponse newTransfer(TransferRequest transferRequest) {
+    public TransferStatus newTransfer(TransferRequest transferRequest) {
         LocalDateTime hourBefore = LocalDateTime.now().minusHours(1);
         List<Transfer> transfers =
                 iTransferRepository.findByDateAfter(hourBefore);
@@ -37,34 +39,34 @@ public class TransferService {
         }
 
         if (diffRegion > 2 && uniqueIp > 2) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.PROHIBITED.name(),
                     RejectionReason.REGION_AND_IP_CORRELATION.getDescription()
             );
         } else if (diffRegion > 2) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.PROHIBITED.name(),
                     RejectionReason.REGION_CORRELATION.getDescription()
             );
         } else if (uniqueIp > 2) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.PROHIBITED.name(),
                     RejectionReason.IP_CORRELATION.getDescription()
             );
         } else if (diffRegion == 2) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.MANUAL_PROCESSING.name(),
                     RejectionReason.REGION_CORRELATION.getDescription()
             );
         } else if (uniqueIp == 2) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.MANUAL_PROCESSING.name(),
                     RejectionReason.IP_CORRELATION.getDescription()
             );
         }
 
         if (!isRegionValid(transferRequest.region())) {
-            return new TransferResponse(
+            return new TransferStatus(
                     TransferResult.PROHIBITED.name(),
                     RejectionReason.REGION.getDescription()
             );
@@ -80,7 +82,7 @@ public class TransferService {
 
         iTransferRepository.save(transfer);
 
-        return new TransferResponse(
+        return new TransferStatus(
                 TransferResult.ALLOWED.name(),
                 RejectionReason.NONE.getDescription()
         );
@@ -89,6 +91,25 @@ public class TransferService {
     private boolean isRegionValid(String inputRegion) {
         return Arrays.stream(Region.values())
                 .anyMatch(region -> region.name().equals(inputRegion));
+    }
+
+    public List<TransferResponse> getAllTransfers() {
+        List<Transfer> allTransfers = iTransferRepository.findAll();
+        List<TransferResponse> allTransfersResponse = new LinkedList<>();
+
+        for (Transfer transfer : allTransfers) {
+            TransferResponse response = new TransferResponse(
+                    transfer.getId(),
+                    transfer.getAmount(),
+                    transfer.getIp(),
+                    transfer.getCardNumber(),
+                    transfer.getRegion(),
+                    transfer.getDate()
+            );
+            allTransfersResponse.add(response);
+        }
+
+        return allTransfersResponse;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.antifraud.service;
 
 import com.antifraud.repository.IStolenCardRepository;
+import com.antifraud.response.StolenCardResponse;
 import com.antifraud.stolencard.StolenCard;
 import com.antifraud.stolencard.StolenCardRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class StolenCardService {
     private final IStolenCardRepository iStolenCardRepository;
 
-    public StolenCard addStolenCard(StolenCardRequest stolenCardRequest) {
+    public StolenCardResponse addStolenCard(StolenCardRequest stolenCardRequest) {
         Optional<StolenCard> stolenCard =
                 iStolenCardRepository.findByCardNumber(stolenCardRequest.cardNumber());
 
@@ -28,9 +29,12 @@ public class StolenCardService {
                 stolenCardRequest.cardNumber()
         );
 
-        iStolenCardRepository.save(newStolenCard);
+        iStolenCardRepository.saveAndFlush(newStolenCard);
 
-        return newStolenCard;
+        return new StolenCardResponse(
+                newStolenCard.getId(),
+                newStolenCard.getCardNumber()
+        );
     }
 
     public List<StolenCard> allStolenCards() {
