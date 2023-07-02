@@ -22,7 +22,6 @@ spring:
     port: 1025
     username: hello
     password: hello
-
     properties:
       mail:
         smtp:
@@ -34,3 +33,34 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+
+jwt:
+  secret: "-----BEGIN PRIVATE KEY-----
+    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4fNvumytrvrnJ
+    77ISWnPv3JhX9KqjCAfFB69iMIJdECJhpt9D3NGNj58Ldn5jYy1BDtmifzI44t40
+    OScfiVuYJIXOB+QddVgXbhLNvUZ909hB3lt/2IS+Y50W57aIJMI7CBhPah7uD4PL
+    OOm9V0UfffvPnoSsfHyhpTlPxN8Oj/SR4eRKRmcrZVImgW2HL3OHucxidfdpCEsW
+    0OIJTGZMHCNnTSgFidH4lsCVvIyrNLvp8Ao8DKdc2/EJqc/zlfplDI3B9Jr3Z/54
+    QcCm02OSaJAV3ItjzxM7cWVo3KLmG6N3NpE+qojCV1TFXI5Bk3DCX30w2Re+Q2It
+    DxSzIA6FAgMBAAECggEACrvQ+/fxNcqZ+qLEhIbYufrmri9hAi1EbnU9AgR6gTmg
+    FnhkAwnE82yIv1z8i4HIr0FS7j5iSKcCcJ1mplISjy6IzmztG72pC2vvEiNSB54c
+    tfBe+Hg7eOxIxn1ixFcHKfIVoAE3nXgvndJI3yhFsEhfLzw00ehIRAtd40M8CxfB
+    xCeLqpUVmwqTwHClX/Bj9OFT9XQxx0XhQlCGXqI9IWsPWIXT6GL2jwe+ItVWK+Kf
+    lhGbxHcOMpsu6OQqlYUvUDczxRkRb5LBf02E2M9pJY12Q3ZwnE4qUMtvnjM4R9WZ
+    kTfzniN0BOU4N5lDhZhCiTYvWDXjYOZZiiJ1E356YQKBgQDZ5kXmEMuM7oIvKeI8
+    2BotrImxbqaIe5OfN1hu4eiuAwgRAbK7pQJ85XNLop+aIUqZMTa85igwNwSTX1AA
+    U55cODHFTF8EcDH3WBBf5SIRFKjZEQeivtDcwJ7vhfLyQRk0rg/ujZptNro44GSm
+    hd7+uckeDY2ymHZYkS6wsr+FiQKBgQDYvv3ThAVHqmDVkx7EJgBmVUtOqfKIAY2c
+    fC/TsE/LpPqCAm16h2kfof1PlPPs4lmfFUuKj6TF/c0PG60H+a4ctHC0bouuyhF/
+    54bV5EB3BGNpWCu22Dwj4pFxRzqghxLa0vxILr3rUPxN25qTA32mxd7G6GXxR8qX
+    TmYMuXD+HQKBgGUD2be0ZYjqMTQIKLeoP0qZSCQXdeCj2WXgVIDi/eldwmmP7foL
+    n0GjZXXU6ESd1mV6aTPdRxhDCT4A26erHCkIbBpZM1ttX9yY2M57/PUKLNSkjnOm
+    HlGYgpXr9RrVjwfbAcvHnaWvz1j6ve5s9VoFavUht2TqRUL92zVTSHJxAoGAY3SA
+    FCZoJdJQTLANVgP5+vr4a0ggObg8uqlhaMlmVBOHv1BN3AN2gUVbbsDyjKfwZ8bl
+    utbezNsA1QXmB9rRweoqLSDsh2/BR+d9P3hU/EfPNe93X5cpQW4dPtVoWXChfjeB
+    +702+FtY6oDyFLNtXLE+4BaTcHt4wqT+vqf46SECgYEAoBEW+tetdn/dEsXBEAy4
+    nToxzCiQflmiO6ih5EVGyEJDgiHu6BKJQJhxpnk+QiXYIXVp4Wng2g0OXafIcfBh
+    uOmpXly9yLgSzD3+foaogmAxsIeEzWWAgp85DzwPGF7+uIYNshN4vBAWCta1FxG0
+    Iks2qKOezskOZWAW4kfh1AI=
+    -----END PRIVATE KEY-----"
+  expiration: 1000
